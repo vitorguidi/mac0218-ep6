@@ -1,0 +1,15 @@
+docker pull caddy
+docker image build . -t custom-caddy:2.5.0-alpine
+docker container run--name my-caddy-server -p 8080:80 -d custom-caddy:2.5.0-alpine
+
+#remake to mount volume and edit at will
+#link current folder to caddy pagee
+
+docker container stop my-caddy-server
+docker container rm my-caddy-server
+docker image build . -t custom-caddy:2.5.0-alpine
+docker container run             \
+	--name my-caddy-server         \
+	-p 8080:80                     \
+	-v ${PWD}:/usr/src/pages	\
+	-d custom-caddy:2.5.0-alpine
